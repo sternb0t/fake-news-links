@@ -1,0 +1,359 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Fake News Links</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static "web/vendor/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static "web/vendor/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <!-- jquery datatables -->
+{#    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">#}
+    <link href="{% static "web/css/dataTables.min.css" %}" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="{% static "web/css/app.min.css" %}" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">
+                    <i class="fa fa-play-circle"></i> Fake News Links
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contribute">Contribute</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#explore">Explore</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#code">Code</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="brand-heading">Fake News Links</h1>
+                        <p class="intro-text">Cataloging fake news for the public good.</p>
+                        <a href="#about" class="btn btn-circle page-scroll">
+                            <i class="fa fa-angle-double-down animated"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>What is this?</h2>
+                <p><a href="https://fakenewslinks.com>">Fake News Links</a> is a free public API for collecting, tracking, and monitoring fake news articles.
+                    Our goal is to crowdsource a comprehensive, annotated dataset of URLs that contain primarily false information, but is presented as news.
+                    This dataset can then be used by anyone interested in making sure that the news they read is real.</p>
+
+                <h2>What can I do?</h2>
+                <p>Contribute a URL to Fake News Links. In doing so, you are helping to fight the spread of false information on the internet.
+                   You can also explore URLs that have been contributed so far.</p>
+
+                <h2>Do I need to sign up?</h2>
+                <p>Now, you don't need to sign up.
+                   When you contribute, the only information we collect, aside from the URL, is the date/time and the location from your browser (which you can opt out of).
+                   Including location like this allows combined analysis with other datasets.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contribute Section -->
+    <section id="contribute" class="content-section text-center">
+        <div class="contribute-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>Contribute a Fake News Link</h2>
+                    <form id="contribute-form">
+                        <div class="form-group form-group-lg">
+                            <label for="contribute-url" class="sr-only">Fake news article URL</label>
+                            <input id="contribute-url" name="contribute-url" type="url" class="form-control light" aria-describedby="contribute-url-help" placeholder="Fake news article URL" required>
+                            <p id="contribute-url-help" class="help-block small text-left">No home pages or short-links please!</p>
+                        </div>
+                        <input id="contribute-submit" class="btn btn-default btn-lg" type="submit" value="Add URL">
+                    </form>
+                    <div id="contribute-spinner" class="text-center">
+                        <style type='text/css'>
+                            width: 100%;
+                            @-webkit-keyframes uil-ring-anim {
+                              0% {
+                                -ms-transform: rotate(0deg);
+                                -moz-transform: rotate(0deg);
+                                -webkit-transform: rotate(0deg);
+                                -o-transform: rotate(0deg);
+                                transform: rotate(0deg);
+                              }
+                              100% {
+                                -ms-transform: rotate(360deg);
+                                -moz-transform: rotate(360deg);
+                                -webkit-transform: rotate(360deg);
+                                -o-transform: rotate(360deg);
+                                transform: rotate(360deg);
+                              }
+                            }
+                            @-webkit-keyframes uil-ring-anim {
+                              0% {
+                                -ms-transform: rotate(0deg);
+                                -moz-transform: rotate(0deg);
+                                -webkit-transform: rotate(0deg);
+                                -o-transform: rotate(0deg);
+                                transform: rotate(0deg);
+                              }
+                              100% {
+                                -ms-transform: rotate(360deg);
+                                -moz-transform: rotate(360deg);
+                                -webkit-transform: rotate(360deg);
+                                -o-transform: rotate(360deg);
+                                transform: rotate(360deg);
+                              }
+                            }
+                            @-moz-keyframes uil-ring-anim {
+                              0% {
+                                -ms-transform: rotate(0deg);
+                                -moz-transform: rotate(0deg);
+                                -webkit-transform: rotate(0deg);
+                                -o-transform: rotate(0deg);
+                                transform: rotate(0deg);
+                              }
+                              100% {
+                                -ms-transform: rotate(360deg);
+                                -moz-transform: rotate(360deg);
+                                -webkit-transform: rotate(360deg);
+                                -o-transform: rotate(360deg);
+                                transform: rotate(360deg);
+                              }
+                            }
+                            @-ms-keyframes uil-ring-anim {
+                              0% {
+                                -ms-transform: rotate(0deg);
+                                -moz-transform: rotate(0deg);
+                                -webkit-transform: rotate(0deg);
+                                -o-transform: rotate(0deg);
+                                transform: rotate(0deg);
+                              }
+                              100% {
+                                -ms-transform: rotate(360deg);
+                                -moz-transform: rotate(360deg);
+                                -webkit-transform: rotate(360deg);
+                                -o-transform: rotate(360deg);
+                                transform: rotate(360deg);
+                              }
+                            }
+                            @-moz-keyframes uil-ring-anim {
+                              0% {
+                                -ms-transform: rotate(0deg);
+                                -moz-transform: rotate(0deg);
+                                -webkit-transform: rotate(0deg);
+                                -o-transform: rotate(0deg);
+                                transform: rotate(0deg);
+                              }
+                              100% {
+                                -ms-transform: rotate(360deg);
+                                -moz-transform: rotate(360deg);
+                                -webkit-transform: rotate(360deg);
+                                -o-transform: rotate(360deg);
+                                transform: rotate(360deg);
+                              }
+                            }
+                            @-webkit-keyframes uil-ring-anim {
+                              0% {
+                                -ms-transform: rotate(0deg);
+                                -moz-transform: rotate(0deg);
+                                -webkit-transform: rotate(0deg);
+                                -o-transform: rotate(0deg);
+                                transform: rotate(0deg);
+                              }
+                              100% {
+                                -ms-transform: rotate(360deg);
+                                -moz-transform: rotate(360deg);
+                                -webkit-transform: rotate(360deg);
+                                -o-transform: rotate(360deg);
+                                transform: rotate(360deg);
+                              }
+                            }
+                            @-o-keyframes uil-ring-anim {
+                              0% {
+                                -ms-transform: rotate(0deg);
+                                -moz-transform: rotate(0deg);
+                                -webkit-transform: rotate(0deg);
+                                -o-transform: rotate(0deg);
+                                transform: rotate(0deg);
+                              }
+                              100% {
+                                -ms-transform: rotate(360deg);
+                                -moz-transform: rotate(360deg);
+                                -webkit-transform: rotate(360deg);
+                                -o-transform: rotate(360deg);
+                                transform: rotate(360deg);
+                              }
+                            }
+                            @keyframes uil-ring-anim {
+                              0% {
+                                -ms-transform: rotate(0deg);
+                                -moz-transform: rotate(0deg);
+                                -webkit-transform: rotate(0deg);
+                                -o-transform: rotate(0deg);
+                                transform: rotate(0deg);
+                              }
+                              100% {
+                                -ms-transform: rotate(360deg);
+                                -moz-transform: rotate(360deg);
+                                -webkit-transform: rotate(360deg);
+                                -o-transform: rotate(360deg);
+                                transform: rotate(360deg);
+                              }
+                            }
+                            .uil-ring-css {
+                              background: none;
+                              position: relative;
+                              width: 200px;
+                              height: 100px;
+                              margin: auto;
+                            }
+                            .uil-ring-css > div {
+                              position: absolute;
+                              display: block;
+                              width: 160px;
+                              height: 160px;
+                              top: 20px;
+                              left: 20px;
+                              border-radius: 80px;
+                              box-shadow: 0 6px 0 0 #42DCA3;
+                              -ms-animation: uil-ring-anim 1s linear infinite;
+                              -moz-animation: uil-ring-anim 1s linear infinite;
+                              -webkit-animation: uil-ring-anim 1s linear infinite;
+                              -o-animation: uil-ring-anim 1s linear infinite;
+                              animation: uil-ring-anim 1s linear infinite;
+                            }
+                        </style>
+                        <div class='uil-ring-css' style='transform:scale(0.36);'><div></div></div>
+                    </div>
+                    <div id="contribute-success" class="contribute-results">
+                        <h3>Thanks for contributing a fake news URL.</h3>
+                    </div>
+                    <div id="contribute-fail" class="contribute-results">
+                        <h3>D'oh, something went wrong. Try again?</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Explore Section -->
+    <section id="explore" class="container content-section text-center">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <h2>Explore Fake News Links</h2>
+                <p>Fake News Links has <strong><span id="fake-news-links-count">???</span></strong> URLs so far.</p>
+                <table id="fake-news-table" class="cell-border text-left">
+                    <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Added</th>
+                    </tr>
+                    </thead>
+                </table>
+
+                <h3>via the API</h3>
+                <p>Visit <a href="/api/">https://fakenewslinks.com/api/</a> to browse the API.<br/>
+                   No authentication is needed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Section -->
+    <section id="code" class="content-section text-center">
+        <div class="code-section">
+            <div class="container">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h2>Code</h2>
+                    <p><a href="https://github.com/sternb0t/fake-news-links" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a></p>
+                    <p>Made with <a href="https://www.djangoproject.com/">Django</a> and <a href="http://www.django-rest-framework.org/">Django REST framework</a>.<br/>
+                        Web theme from the <a href="http://startbootstrap.com/template-overviews/grayscale/">Grayscale</a> Bootstrap 3 theme created by <a href="http://startbootstrap.com/">Start Bootstrap</a>.<br/>
+                        Stock photos by <a href="http://gratisography.com/">Gratisography</a>.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>Copyright &copy; Fake News Links 2016</p>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{% static "web/vendor/jquery/jquery.js" %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "web/vendor/bootstrap/js/bootstrap.min.js" %}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.0/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
+
+    <!-- app JavaScript -->
+    <script src="{% static "web/js/app.js" %}"></script>
+
+</body>
+
+</html>
