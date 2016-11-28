@@ -3,6 +3,12 @@ import os
 import sys
 
 if __name__ == "__main__":
+
+    from gevent import monkey
+    monkey.patch_all()
+    import psycogreen.gevent
+    psycogreen.gevent.patch_psycopg()
+
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fake_news_links.settings")
     try:
         from django.core.management import execute_from_command_line
