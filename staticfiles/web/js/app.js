@@ -32,56 +32,23 @@ $('.navbar-collapse ul li a').click(function() {
     $(this).closest('.collapse').collapse('toggle');
 });
 
-// contribute a URL via the API
-$('#contribute-form').submit(function(event) {
-    event.preventDefault();
-    $('.contribute-results').hide();
-    $('#contribute-spinner').show();
+$(document).ready(function(){
 
-    function doPost(position) {
-        var url = $('#contribute-url').val();
-        var latitude = position.coords && position.coords.latitude ? Math.round(position.coords.latitude * 100000) / 100000 : null;
-        var longitude = position.coords && position.coords.longitude ? Math.round(position.coords.longitude * 100000) / 100000 : null;
-        var geoAccuracy = position.coords && position.coords.accuracy ? Math.round(position.coords.accuracy * 100000) / 100000 : null;
-        var data = {
-            url: url,
-            latitude: latitude,
-            longitude: longitude,
-            geo_accuracy: geoAccuracy
-        };
-        $.post("/api/links/", data)
-            .done(function(){
-                $('#contribute-spinner').hide();
-                $('#contribute-success').show();
+    // get stats from api
+    function getStats() {
+        $.get("/api/stats/")
+            .done(function(data){
+               $('#fake-news-links-count').text(data.count);
             })
             .fail(function(err){
-                console.log(err);
-                $('#contribute-spinner').hide();
-                $('#contribute-fail').show();
+               console.log(err);
             });
     }
+    getStats();
 
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(doPost, doPost);
-    }
-    else {
-        doPost();
-    }
-
-});
-
-// get stats from api
-$(document).ready(function(){
-   $.get("/api/stats/")
-       .done(function(data){
-           $('#fake-news-links-count').text(data.count);
-       })
-       .fail(function(err){
-           console.log(err);
-       });
-
-   $.fn.dataTable.moment("YYYY-MM-DDTHH:mm:ss.SSSSZ");
-   $('#fake-news-table').DataTable({
+    // show recent data in the explore table
+    $.fn.dataTable.moment("YYYY-MM-DDTHH:mm:ss.SSSSZ");
+    var table = $('#fake-news-table').DataTable({
     ajax: {
         url: "/api/links/",
         dataSrc: ""
@@ -115,6 +82,51 @@ $(document).ready(function(){
         }
     ],
     order: [[ 1, "desc" ]]
+    });
+
+    // refresh data with the refresh button
+    $('#refresh-table').click(function(){
+      table.ajax.reload();
+      getStats();
+    });
+
+    // contribute a URL via the API
+    $('#contribute-form').submit(function(event) {
+        event.preventDefault();
+        $('.contribute-results').hide();
+        $('#contribute-spinner').show();
+
+        function doPost(position) {
+            var url = $('#contribute-url').val();
+            var latitude = position.coords && position.coords.latitude ? Math.round(position.coords.latitude * 100000) / 100000 : null;
+            var longitude = position.coords && position.coords.longitude ? Math.round(position.coords.longitude * 100000) / 100000 : null;
+            var geoAccuracy = position.coords && position.coords.accuracy ? Math.round(position.coords.accuracy * 100000) / 100000 : null;
+            var data = {
+                url: url,
+                latitude: latitude,
+                longitude: longitude,
+                geo_accuracy: geoAccuracy
+            };
+            $.post("/api/links/", data)
+                .done(function(){
+                    table.ajax.reload();
+                    getStats();
+                    $('#contribute-spinner').hide();
+                    $('#contribute-success').show();
+                })
+                .fail(function(err){
+                    console.log(err);
+                    $('#contribute-spinner').hide();
+                    $('#contribute-fail').show();
+                });
+        }
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(doPost, doPost);
+        }
+        else {
+            doPost();
+        }
     });
 });
 
