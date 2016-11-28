@@ -38,6 +38,9 @@ DEBUG = {'PROD': False, 'CI': False, 'LOCAL': True}[APP_ENVIRONMENT]
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
+    '.amazonaws.com',
+    '.fakenewslinks.com',
+    'fakenewslinks.com',
 ]
 
 

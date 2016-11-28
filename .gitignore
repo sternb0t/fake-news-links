@@ -94,5 +94,5 @@ ENV/
 # PyCharm
 .idea/
 
-# Django collectstatic output
-staticfiles/
+# extra npm packages
+web/static/web/node_modules

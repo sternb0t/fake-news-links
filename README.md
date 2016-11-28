@@ -41,7 +41,7 @@ To build the docker image locally:
 
 ```
 # first make sure we have static assets (js, images, etc.) in the right place
-python manage.py collectstatic --no-input
+python manage.py collectstatic --no-input -i node_modules
 
 # now build
 docker build -t fake-news-links .
