@@ -229,7 +229,7 @@ input {
 }
 .contribute-section {
   width: 100%;
-  padding: 50px 0;
+  padding: 20px 0;
   color: white;
   background: url(../img/intro-bg.jpg) no-repeat center center scroll;
   background-color: black;
@@ -239,9 +239,27 @@ input {
   -o-background-size: cover;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+.contribute-attribute-header {
+  margin: 25px 0 0;
+}
+.contribute-attribute-subheader {
+  margin: 8px 0 22px;
+}
+.contribute-attribute-label {
+  font-weight: 400;
+}
 @media (min-width: 767px) {
   .contribute-section {
     padding: 100px 0;
+  }
+  .contribute-attribute-header {
+    margin: 25px 0 0;
+  }
+  .contribute-attribute-subheader {
+    margin: 5px 0 25px;
+  }
+  .contribute-attribute-label {
+    font-size: 16px;
   }
 }
 .contribute-results {

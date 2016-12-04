@@ -42,7 +42,7 @@ $(document).ready(function(){
 
                 for (var i = 0; i < data.results.length; i++) {
                    var attr = data.results[i];
-                   var content = '<div class="form-check"><label class="form-check-label"><input class="contribute-attribute form-check-input" type="checkbox" value="' + attr.id + '"> ' + attr.name + '</label></div>';
+                   var content = '<div class="form-check"><label class="contribute-attribute-label form-check-label"><input class="contribute-attribute form-check-input" type="checkbox" value="' + attr.id + '"> ' + attr.name + '</label></div>';
                    if (i < data.results.length / 2) {
                        left.append(content);
                    }
