@@ -34,14 +34,37 @@ $('.navbar-collapse ul li a').click(function() {
 
 $(document).ready(function(){
 
+    function getAttributes() {
+        $.get("/api/attributes/")
+            .done(function(data){
+                var left = $('#contribute-attributes-left');
+                var right = $('#contribute-attributes-right');
+
+                for (var i = 0; i < data.results.length; i++) {
+                   var attr = data.results[i];
+                   var content = '<div class="form-check"><label class="form-check-label"><input class="contribute-attribute form-check-input" type="checkbox" value="' + attr.id + '"> ' + attr.name + '</label></div>';
+                   if (i < data.results.length / 2) {
+                       left.append(content);
+                   }
+                   else {
+                       right.append(content);
+                   }
+                }
+            })
+            .fail(function(err){
+                console.log(err);
+            });
+    }
+    getAttributes();
+
     // get stats from api
     function getStats() {
         $.get("/api/stats/")
             .done(function(data){
-               $('#fake-news-links-count').text(data.count);
+                $('#fake-news-links-count').text(data.count);
             })
             .fail(function(err){
-               console.log(err);
+                console.log(err);
             });
     }
     getStats();
@@ -51,7 +74,7 @@ $(document).ready(function(){
     var table = $('#fake-news-table').DataTable({
     ajax: {
         url: "/api/links/",
-        dataSrc: ""
+        dataSrc: "results"
     },
     columns: [
         {
@@ -101,24 +124,34 @@ $(document).ready(function(){
             var latitude = position.coords && position.coords.latitude ? Math.round(position.coords.latitude * 100000) / 100000 : null;
             var longitude = position.coords && position.coords.longitude ? Math.round(position.coords.longitude * 100000) / 100000 : null;
             var geoAccuracy = position.coords && position.coords.accuracy ? Math.round(position.coords.accuracy * 100000) / 100000 : null;
+            var contributeAttributes = ($('input.contribute-attribute:checkbox:checked')).map(function() {
+                return {id: this.value};
+            }).get();
             var data = {
                 url: url,
                 latitude: latitude,
                 longitude: longitude,
-                geo_accuracy: geoAccuracy
+                geo_accuracy: geoAccuracy,
+                attributes: contributeAttributes
             };
-            $.post("/api/links/", data)
-                .done(function(){
-                    table.ajax.reload();
-                    getStats();
-                    $('#contribute-spinner').hide();
-                    $('#contribute-success').show();
-                })
-                .fail(function(err){
-                    console.log(err);
-                    $('#contribute-spinner').hide();
-                    $('#contribute-fail').show();
-                });
+            $.ajax({
+              type: "POST",
+              url: "/api/links/",
+              data: JSON.stringify(data),
+              contentType: "application/json",
+              dataType: "json"
+            }).done(function(){
+                $('#contribute-url').val('');
+                table.ajax.reload();
+                getStats();
+                $('#contribute-spinner').hide();
+                $('#contribute-success').show();
+            })
+            .fail(function(err){
+                console.log(err);
+                $('#contribute-spinner').hide();
+                $('#contribute-fail').show();
+            });
         }
 
         if (navigator.geolocation) {

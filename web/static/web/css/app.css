@@ -237,6 +237,7 @@ input {
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;
+  font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 @media (min-width: 767px) {
   .contribute-section {
