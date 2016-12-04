@@ -6,6 +6,7 @@ var cleanCSS = require('gulp-clean-css');
 var rename = require("gulp-rename");
 var uglify = require('gulp-uglify');
 var pkg = require('./package.json');
+var sourcemaps = require('gulp-sourcemaps');
 
 // Set the banner content
 var banner = ['/*!\n',
@@ -41,9 +42,11 @@ gulp.task('minify-css', ['less'], function() {
 // Minify JS
 gulp.task('minify-js', function() {
     return gulp.src('js/app.js')
+        .pipe(sourcemaps.init())
         .pipe(uglify())
         .pipe(header(banner, { pkg: pkg }))
         .pipe(rename({ suffix: '.min' }))
+        .pipe(sourcemaps.write('maps'))
         .pipe(gulp.dest('js'))
         .pipe(browserSync.reload({
             stream: true
