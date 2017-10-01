@@ -1,1 +1,1 @@
-web: bin/start-nginx uwsgi uwsgi.heroku.ini
+web: uwsgi uwsgi.heroku.ini
