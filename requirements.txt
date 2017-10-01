@@ -1,10 +1,14 @@
 beautifulsoup4==4.5.1
 dj-database-url==0.4.1
-Django==1.10.3
+Django==1.11.5
+django-ipware==1.1.6
 djangorestframework==3.5.3
 gevent==1.1.2
+greenlet==0.4.10
 psycogreen==1.0
 psycopg2==2.6.2
+pytz==2017.2
 requests==2.12.1
 rest-framework-cache==0.1
 uWSGI==2.0.13.1
+whitenoise==3.3.1
