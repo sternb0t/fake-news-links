@@ -39,6 +39,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     '.amazonaws.com',
+    'fake-news-links.herokuapp.com',
     '.fakenewslinks.com',
     'fakenewslinks.com',
 ]
